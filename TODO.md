@@ -12,4 +12,4 @@
 - [ ] snake has eyes
 
 ### Completed
-- [x] die on self hit
+- [x] die on obstacle hit
