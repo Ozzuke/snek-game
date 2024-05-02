@@ -2,6 +2,66 @@ import pygame
 import game_functions as gf
 import classes
 
+def title_screen(settings, screen):
+    """Display the title screen with options to play, settings, or quit."""
+    title_font = pygame.font.SysFont(None, 48)
+    options_font = pygame.font.SysFont(None, 36)
+    options = ["Play", "Settings", "Quit"]
+    selected_option = 0
+
+    while True:
+        screen.fill(settings.background_color)
+        title_text = title_font.render("Snake Game", True, (255, 255, 255))
+        screen.blit(title_text, (settings.screen_width / 2 - title_text.get_width() / 2, 100))
+
+        for i, option in enumerate(options):
+            if i == selected_option:
+                option_text = options_font.render(option, True, (255, 0, 0))
+            else:
+                option_text = options_font.render(option, True, (255, 255, 255))
+            screen.blit(option_text, (settings.screen_width / 2 - option_text.get_width() / 2, 200 + i * 50))
+
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                return 'Quit'
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP and selected_option > 0:
+                    selected_option -= 1
+                elif event.key == pygame.K_DOWN and selected_option < len(options) - 1:
+                    selected_option += 1
+                elif event.key == pygame.K_RETURN:
+                    return options[selected_option]
+
+def settings_screen(settings, screen):
+    """Display the settings screen for adjusting game settings."""
+    settings_font = pygame.font.SysFont(None, 36)
+    options = ["Back"]
+    selected_option = 0
+
+    while True:
+        screen.fill(settings.background_color)
+        settings_text = settings_font.render("Settings (Placeholder)", True, (255, 255, 255))
+        screen.blit(settings_text, (settings.screen_width / 2 - settings_text.get_width() / 2, 100))
+
+        for i, option in enumerate(options):
+            if i == selected_option:
+                option_text = settings_font.render(option, True, (255, 0, 0))
+            else:
+                option_text = settings_font.render(option, True, (255, 255, 255))
+            screen.blit(option_text, (settings.screen_width / 2 - option_text.get_width() / 2, 200 + i * 50))
+
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                return 'Quit'
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    return options[selected_option]
 
 def run_game():
     """start running the snake game"""
@@ -14,6 +74,16 @@ def run_game():
     screen = pygame.display.set_mode((settings.screen_width, settings.screen_height))
     # set the window name
     pygame.display.set_caption("Snake")
+
+    # Display the title screen
+    action = title_screen(settings, screen)
+    if action == "Quit":
+        return
+    elif action == "Settings":
+        settings_screen(settings, screen)
+        action = title_screen(settings, screen)
+        if action == "Quit":
+            return
 
     # init the built in pygame clock
     clock = pygame.time.Clock()
