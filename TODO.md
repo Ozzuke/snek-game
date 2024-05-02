@@ -5,7 +5,7 @@
 - [ ] other stats on the side
 - [ ] pause menu
 - [ ] obstacles on the map
-- [ ] start menu
+- [x] start menu
 - [ ] shop:
   - [ ] snake color
   - [ ] start length
