@@ -49,6 +49,8 @@ class Status:
         self.restart = False
         self.normal_map_update = True
         self.score = 0  # Pfoe9
+        self.game_over = False  # P2eb4
+        self.final_score = 0  # P21b6
 
 
 class Snake:

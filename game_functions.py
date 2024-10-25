@@ -155,4 +155,4 @@ def destory_snake(game_map, snake):
         dedsnek = snake.whole.pop(0)
         game_map.game_map[dedsnek[0], dedsnek[1], 2] = 0
     else:
-        pygame.quit()
+        status.game_over = True
