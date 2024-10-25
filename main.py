@@ -63,6 +63,42 @@ def settings_screen(settings, screen):
                 if event.key == pygame.K_RETURN:
                     return options[selected_option]
 
+def game_over_screen(settings, screen, status):
+    """Display the game over screen with final score and options to restart, main menu, or quit."""
+    game_over_font = pygame.font.SysFont(None, 48)
+    options_font = pygame.font.SysFont(None, 36)
+    options = ["Restart", "Main Menu", "Quit"]
+    selected_option = 0
+
+    while True:
+        screen.fill(settings.background_color)
+        game_over_text = game_over_font.render("Game Over", True, (255, 255, 255))
+        screen.blit(game_over_text, (settings.screen_width / 2 - game_over_text.get_width() / 2, 100))
+
+        final_score_text = options_font.render(f"Final Score: {status.final_score}", True, (255, 255, 255))
+        screen.blit(final_score_text, (settings.screen_width / 2 - final_score_text.get_width() / 2, 200))
+
+        for i, option in enumerate(options):
+            if i == selected_option:
+                option_text = options_font.render(option, True, (255, 0, 0))
+            else:
+                option_text = options_font.render(option, True, (255, 255, 255))
+            screen.blit(option_text, (settings.screen_width / 2 - option_text.get_width() / 2, 300 + i * 50))
+
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                return 'Quit'
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP and selected_option > 0:
+                    selected_option -= 1
+                elif event.key == pygame.K_DOWN and selected_option < len(options) - 1:
+                    selected_option += 1
+                elif event.key == pygame.K_RETURN:
+                    return options[selected_option]
+
 def run_game():
     """start running the snake game"""
 
@@ -116,6 +152,17 @@ def run_game():
 
         if status.quit:
             pygame.quit()
+
+        if status.game_over:
+            status.final_score = status.score
+            action = game_over_screen(settings, screen, status)
+            if action == "Restart":
+                run_game()
+            elif action == "Main Menu":
+                return run_game()
+            elif action == "Quit":
+                pygame.quit()
+                return
 
         clock.tick(15)
 
