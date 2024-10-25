@@ -112,7 +112,7 @@ def run_game():
             gf.destory_snake(game_map, snake)
             settings.snake_color = [180, 0, 0]
             pygame.time.wait(200)
-        gf.draw_screen(screen, settings, game_map)
+        gf.draw_screen(screen, settings, game_map, status)
 
         if status.quit:
             pygame.quit()

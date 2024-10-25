@@ -48,6 +48,7 @@ class Status:
         self.quit = False
         self.restart = False
         self.normal_map_update = True
+        self.score = 0  # Pfoe9
 
 
 class Snake:
