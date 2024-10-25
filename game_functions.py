@@ -47,7 +47,7 @@ def respond_keydown(event, status):
         status.move_dir = "W"
 
 
-def draw_screen(screen, settings, game_map):
+def draw_screen(screen, settings, game_map, status):
     """draw and flip the display"""
 
     # fill screen with background color
@@ -76,6 +76,11 @@ def draw_screen(screen, settings, game_map):
             np.ceil(settings.pixel_size),
             np.ceil(settings.pixel_size)
         ]))
+
+    # display the score
+    font = pygame.font.SysFont(None, 36)
+    score_text = font.render(f"Score: {status.score}", True, (255, 255, 255))
+    screen.blit(score_text, (10, 10))
 
     # show the new frame
     pygame.display.flip()
@@ -126,6 +131,7 @@ def update_snake(status, game_map, snake, apple, settings):
         # TODO: move growing of snake and moving of apple to status dealing function
         snake.whole.append(snake.whole[-1])
         apple.pos = random.choice([y for x in game_map.game_map for y in x if not y[2]])
+        status.score += 1  # P44cf
 
     # check if snake hit bad
     if snake.head in snake.whole[1:] or any([not 0 <= x < settings.pixels for x in snake.head]):
