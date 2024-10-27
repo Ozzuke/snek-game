@@ -151,8 +151,7 @@ def start_map(game_map, snake):
 
 def destory_snake(game_map, snake):
     """snake has died, remove snake"""
-    if snake.whole:
-        dedsnek = snake.whole.pop(0)
-        game_map.game_map[dedsnek[0], dedsnek[1], 2] = 0
-    else:
-        status.game_over = True
+    for segment in snake.whole:
+        game_map.game_map[segment[0], segment[1], 2] = 0
+    snake.whole.clear()
+    status.game_over = True
